@@ -128,29 +128,42 @@ fun TodayTab(viewModel: LeakWatchViewModel) {
 }
 
 /**
- * History tab: shows daily summaries.
+ * History tab: shows daily summaries + chart.
  */
 @Composable
 fun HistoryTab(viewModel: LeakWatchViewModel) {
     val summaries by viewModel.dailySummaries.collectAsState(initial = emptyList())
     
-    if (summaries.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "No daily summaries yet.\nSummaries are generated at midnight.",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            // Battery drain chart
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BatteryDrainChart(summaries)
+            }
         }
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        
+        if (summaries.isEmpty()) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No daily summaries yet.\nSummaries are generated at midnight.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        } else {
             items(summaries.reversed()) { summary ->
                 DailySummaryCard(summary)
             }
