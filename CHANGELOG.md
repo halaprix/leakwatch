@@ -28,6 +28,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `watch/entry/src/main/ets/service/WearEngineSender.ets` — stub with 10min batched flush cadence
   - Real HMS Wear Engine P2P integration lands in v0.4.0-alpha.1 (requires AGC fingerprint)
   - Stub logs queue length so the batching cadence is verifiable in DevEco HiLog
+- `phone/` — Android Kotlin + Compose placeholder APK
+  - `phone/settings.gradle.kts`, `phone/build.gradle.kts`, `phone/gradle.properties` — Gradle config
+  - `phone/app/build.gradle.kts` — app module (compileSdk 34, minSdk 26, Compose BOM 2024.08)
+  - `phone/app/src/main/AndroidManifest.xml` — manifest with MainActivity
+  - `phone/app/src/main/java/com/halaprix/leakwatch/MainActivity.kt` — placeholder Compose UI
+  - `phone/app/src/main/java/com/halaprix/leakwatch/ui/theme/` — Material3 theme (Color, Type, Theme)
+  - `phone/app/src/main/res/values/` — strings.xml, themes.xml, colors.xml
+  - Note: gradle wrapper JAR + scripts not committed (binary); generate locally with `gradle wrapper`
 
 ### Changed
 - `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
