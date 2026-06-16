@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/privacy.md` — developer-facing privacy rules (distinct from `docs/PRIVACY.md` which is user-facing)
 - `docs/pr-flow.md` — PR lifecycle documentation
 - `docs/AGC_SETUP.md` — manual AGC setup checklist (1-time, before v0.4.0-alpha.1)
+- `watch/` — HarmonyOS NEXT (ArkTS) project scaffold for wearable device
+  - `watch/AppScope/app.json5` — app-level config (bundleName `com.halaprix.leakwatch`)
+  - `watch/entry/` — entry module with placeholder EntryAbility and Index page
+  - `watch/build-profile.json5`, `watch/oh-package.json5` — build tooling
+  - Target: HarmonyOS 5.0.0(12), wearable device type
 
 ### Changed
 - `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
