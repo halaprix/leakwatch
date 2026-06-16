@@ -16,6 +16,7 @@ import hilog from '@ohos.hilog';
 
 import { BatteryRecord } from '../model/BatteryRecord';
 import { BatteryTable } from '../data/BatteryTable';
+import { WearEngineSender } from './WearEngineSender';
 
 const DOMAIN = 0x0000;
 const TAG = 'BatteryMonitor';
@@ -47,10 +48,12 @@ export class BatteryMonitor {
     await this.sampleOnce(); // immediate first sample
     this.startPolling();
     this.registerNativeListener();
+    WearEngineSender.getInstance().start();
     hilog.info(DOMAIN, TAG, 'BatteryMonitor initialised, polling at %{public}dms', POLL_INTERVAL_MS);
   }
 
   destroy(): void {
+    WearEngineSender.getInstance().stop();
     if (this.pollTimer !== -1) {
       clearInterval(this.pollTimer);
       this.pollTimer = -1;
