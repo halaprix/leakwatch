@@ -1,1 +1,2 @@
 {"id":"int-7708f85d","kind":"field_change","created_at":"2026-06-16T14:02:39.067272562Z","actor":"halaprix","issue_id":"lw-1.0.0","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
+{"id":"int-4d221c12","kind":"field_change","created_at":"2026-06-16T14:07:10.756144837Z","actor":"halaprix","issue_id":"lw-1.1.0","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}

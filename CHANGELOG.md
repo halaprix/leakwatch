@@ -22,10 +22,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `watch/entry/` — entry module with placeholder EntryAbility and Index page
   - `watch/build-profile.json5`, `watch/oh-package.json5` — build tooling
   - Target: HarmonyOS 5.0.0(12), wearable device type
+- `watch/entry/src/main/ets/model/BatteryRecord.ets` — data model for battery readings
+- `watch/entry/src/main/ets/data/BatteryTable.ets` — RDB schema (24h rolling window)
+- `watch/entry/src/main/ets/service/BatteryMonitor.ets` — singleton with 120s polling + listener API
 
 ### Changed
 - `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
 - `AGENTS.md` references new governance files; explicitly forbids Tailscale hostnames, machine IDs, AGC fingerprints
+- `watch/entry/src/main/ets/pages/Index.ets` — live battery card driven by BatteryMonitor
+- `watch/entry/src/main/ets/entryability/EntryAbility.ets` — owns BatteryMonitor lifecycle (init/destroy)
+- `docs/ARCHITECTURE.md` — filled hard-mode sampling rules (120s poll, 30s listener cooldown, 10min batch flush, no foreground service)
 
 ---
 
