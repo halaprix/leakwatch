@@ -1,1 +1,2 @@
 {"id":"int-06a9e082","kind":"field_change","created_at":"2026-06-16T18:07:30.797205856Z","actor":"halaprix","issue_id":"lw-yg3","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Mock P2P receiver implemented in PR #13"}}
+{"id":"int-478eb4c6","kind":"field_change","created_at":"2026-06-16T18:11:22.845387842Z","actor":"halaprix","issue_id":"lw-9nx","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Daily aggregation worker implemented in commit c9c3d8b"}}

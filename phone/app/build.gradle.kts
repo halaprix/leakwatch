@@ -68,6 +68,13 @@ dependencies {
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     
+    // Vico charts (for battery level visualization)
+    implementation("com.patrykandpatrick.vico:compose:1.13.1")
+    implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
+    
+    // Lifecycle ViewModel Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    
     // HMS Core (placeholder — real integration in v0.4.0-alpha.1)
     // implementation("com.huawei.hms:wear-engine:5.0.0.300")
     
