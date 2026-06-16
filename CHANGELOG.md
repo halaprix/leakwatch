@@ -40,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `BatteryReading.kt` — entity mirroring watch-side BatteryRecord
   - `BatteryReadingDao.kt` — DAO with Flow-based queries (all readings, since timestamp, latest, per-day)
   - `AppDatabase.kt` — Room database singleton (leakwatch.db, v1)
+- `phone/app/src/main/java/com/halaprix/leakwatch/p2p/WearEngineReceiver.kt` — mock P2P receiver
+  - Simulates watch data every 120s (matching watch polling interval)
+  - `insertMockBatch(50)` — bulk insert for testing
+  - Real HMS Wear Engine P2P integration lands in v0.4.0-alpha.1
 
 ### Changed
 - `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
@@ -48,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `watch/entry/src/main/ets/entryability/EntryAbility.ets` — owns BatteryMonitor lifecycle (init/destroy)
 - `docs/ARCHITECTURE.md` — filled hard-mode sampling rules (120s poll, 30s listener cooldown, 10min batch flush, no foreground service)
 - `BatteryMonitor` now starts/stops `WearEngineSender` in its lifecycle
+- `phone/app/src/main/java/com/halaprix/leakwatch/MainActivity.kt` — integrated mock P2P receiver with UI button for bulk insert testing
 
 ---
 
