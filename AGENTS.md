@@ -32,9 +32,12 @@ This is a **public, build-in-public** repository under the `halaprix` organisati
 - Filesystem paths under `/home/pkl/...` or any other user's home
 - API keys, tokens, signing certificates, `agconnect-services.json` contents, fingerprints
 - Huawei AppGallery Connect project IDs, package names bound to Marian's personal AGC account (use placeholder `com.halaprix.leakwatch` only in committed `build-profile.json5` if confirmed, otherwise leave as TODO)
-- Home Assistant entities, devices, or any smart-home internal state
+- Home Assistant entities, devices, or any other smart-home internal state
 - Names of other `halaprix/*` private repos unless they are already public
 - Any reference to Marian's personal infrastructure (PC hostname, RTX 5070 Ti, etc.)
+- Tailscale hostnames (e.g. `*.ts.net`)
+- Machine IDs (e.g. `/etc/machine-id` content)
+- Huawei AGC fingerprints (base64-encoded fingerprints from Wear Engine Kit console)
 
 **Rule of thumb:** if a fact would be useful to an attacker profiling Marian's home lab, it's not in this repo. Keep the public surface narrow.
 
@@ -108,7 +111,10 @@ leakwatch/
 ├── docs/
 │   ├── ARCHITECTURE.md         # hard-mode sampling rules
 │   ├── BATTERY_BUDGET.md       # measured drain budget per build
-│   ├── PRIVACY.md              # AppGallery privacy policy
+│   ├── PRIVACY.md              # AppGallery privacy policy (user-facing)
+│   ├── privacy.md              # developer-facing privacy rules
+│   ├── pr-flow.md              # PR lifecycle documentation
+│   ├── AGC_SETUP.md            # manual AGC setup checklist
 │   └── screenshots/            # placeholder for store assets
 ├── watch/                      # HarmonyOS ArkTS app (zegarek)
 │   ├── AppScope/
