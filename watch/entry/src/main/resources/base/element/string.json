@@ -1,0 +1,7 @@
+{
+  "string": [
+    { "name": "module_desc", "value": "LeakWatch watch module" },
+    { "name": "EntryAbility_desc", "value": "Battery-frugal monitor entry" },
+    { "name": "EntryAbility_label", "value": "LeakWatch" }
+  ]
+}
