@@ -177,7 +177,15 @@ logs/
 !.gitattributes
 !**/.gitkeep
 
-# Beads / Dolt files (added by bd init)
-.dolt/
-*.db
-.beads-credential-key
+# Beads (added by `bd init`) — track issues.jsonl, never the embedded DB
+.beads/dolt/
+.beads/embeddeddolt/
+.beads/*.db
+.beads/*.db-*
+.beads/backup/
+.beads/daemon.*
+.beads/last-touched
+.beads/export-state.json
+.beads/sync-state.json
+.beads/.local_version
+CLAUDE.md
