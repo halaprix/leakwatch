@@ -1,0 +1,183 @@
+# AGENTS.md — Operating Rules for Coding Agents
+
+> **Audience:** Any LLM-based coding agent (Claude Code, Codex, Grok Build, Hermes subagents, etc.) working in this repository on behalf of `halaprix`. Read this first; treat it as binding.
+
+---
+
+## 1. Project Context
+
+**LeakWatch** is a battery-monitoring companion app for **Huawei smartwatches** (HarmonyOS / HarmonyOS NEXT) and **Huawei phones with HMS** (no GMS). It samples `batteryInfo` on the watch, pushes data over **HMS Wear Engine**, and visualises drain rates on the phone.
+
+The project's hard constraint is **battery-frugality of the monitor itself** — a battery app that drains the battery is self-defeating. See `docs/ARCHITECTURE.md` for the hard-mode sampling rules (120s interval, 10-min batched flush, listener-driven not polled).
+
+---
+
+## 2. Ground Rules (NON-NEGOTIABLE)
+
+### 2.1 Privacy & Disclosure
+
+This is a **public, build-in-public** repository under the `halaprix` organisation. Marian explicitly opts into public development.
+
+**Allowed in commits, issues, PRs, comments, releases:**
+
+- Project name (`LeakWatch`), repo name (`halaprix/leakwatch`)
+- Public dependency names and versions
+- Generic stack mentions (e.g. "we use HMS Wear Engine 5.0.0.300")
+- High-level architecture diagrams and code snippets
+- Issues with public Huawei Developer Forum links
+
+**PROHIBITED — must never be disclosed in any artifact (including issues, PR comments, commits, release notes, generated docs):**
+
+- Internal/private IP addresses (e.g. `192.168.x.x`, `10.x.x.x`, `172.16-31.x.x`)
+- Filesystem paths under `/home/pkl/...` or any other user's home
+- API keys, tokens, signing certificates, `agconnect-services.json` contents, fingerprints
+- Huawei AppGallery Connect project IDs, package names bound to Marian's personal AGC account (use placeholder `com.halaprix.leakwatch` only in committed `build-profile.json5` if confirmed, otherwise leave as TODO)
+- Home Assistant entities, devices, or any smart-home internal state
+- Names of other `halaprix/*` private repos unless they are already public
+- Any reference to Marian's personal infrastructure (PC hostname, RTX 5070 Ti, etc.)
+
+**Rule of thumb:** if a fact would be useful to an attacker profiling Marian's home lab, it's not in this repo. Keep the public surface narrow.
+
+### 2.2 No Payments / No Smart-Home Side Effects
+
+- **Never** invoke payment flows, payment SDKs, or any code that touches money.
+- **Never** read or write Home Assistant state from this project. It is a battery monitor, not a smart-home controller. If integration with HA seems attractive, it belongs in a separate repo.
+- **Never** commit credentials, even "test" ones. Use environment variables and `.env.example` only.
+
+### 2.3 Git Workflow
+
+- **One logical change per commit.** Do not batch unrelated fixes.
+- **Conventional Commits** are mandatory. Format: `<type>(<scope>): <subject>`
+  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+  - Example: `feat(watch): sample batterySOC at 120s interval`
+- **Commit body** must reference the issue or design doc it implements when one exists.
+- **Push after every commit.** Do not accumulate local commits — Marian reads diffs, not the working tree.
+- **Never force-push to `main`.** Branches may be rebased; `main` is sacred.
+- **Commit author:** the configured git identity, not a co-authored-by LLM line. Marian owns all commits.
+
+### 2.4 Semantic Versioning
+
+- This project follows [SemVer 2.0.0](https://semver.org/). Tags: `vMAJOR.MINOR.PATCH`, prefixed with `v`.
+- `MAJOR`: breaking API or data-format change.
+- `MINOR`: backwards-compatible feature.
+- `PATCH`: backwards-compatible bugfix.
+- Pre-release: `v0.1.0-alpha.1`, `v0.1.0-beta.1`, `v1.0.0-rc.1`.
+- **Until `v1.0.0` is released, breaking changes are allowed in `MINOR` bumps** (pre-1.0 SemVer convention).
+
+### 2.5 Code Review
+
+All non-trivial changes must be reviewed by **at least one** of:
+
+- A second human reviewer, OR
+- A different LLM agent from the approved set (Claude, Codex, Grok Build)
+
+If a coding agent writes a feature, the same agent must not be the sole reviewer of its own output. Either Marian reviews, or a different agent does.
+
+### 2.6 Build-in-Public Etiquette
+
+- The README, issue templates, and PR template are the public face. Keep them sharp.
+- Screenshot and demo paths in markdown should be relative (`./docs/screenshots/...`) — no absolute paths.
+- If a feature is intentionally undocumented in public (e.g. a private build flag), say so in the code comment and do not mention it in public docs.
+
+---
+
+## 3. Repository Layout (Target)
+
+```
+leakwatch/
+├── AGENTS.md                   # this file
+├── README.md                   # public-facing project readme
+├── CHANGELOG.md                # keep-a-changelog format
+├── CONTRIBUTING.md             # contribution guide
+├── CODE_OF_CONDUCT.md          # Contributor Covenant v2.1
+├── LICENSE                     # Apache-2.0 (see §6)
+├── SECURITY.md                 # security policy + privacy policy skeleton
+├── .gitignore                  # multi-stack (HarmonyOS + Android + Kotlin + ArkTS)
+├── .editorconfig
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml              # lint + smoke test
+│   │   ├── release.yml         # tag-driven release notes
+│   │   └── codeql.yml          # security scanning
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   └── question.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── dependabot.yml
+├── docs/
+│   ├── ARCHITECTURE.md         # hard-mode sampling rules
+│   ├── BATTERY_BUDGET.md       # measured drain budget per build
+│   ├── PRIVACY.md              # AppGallery privacy policy
+│   └── screenshots/            # placeholder for store assets
+├── watch/                      # HarmonyOS ArkTS app (zegarek)
+│   ├── AppScope/
+│   ├── entry/
+│   ├── build-profile.json5
+│   └── oh-package.json5
+├── phone/                      # Android Kotlin app (telefon)
+│   ├── app/
+│   ├── build.gradle.kts
+│   └── settings.gradle.kts
+└── tools/
+    └── scripts/                # one-off maintenance scripts
+```
+
+This layout is **target state**. Subdirectories `watch/`, `phone/`, `tools/` are created lazily as their content lands. Do not pre-create empty dirs.
+
+---
+
+## 4. Coding Agent Specifics
+
+### 4.1 Tooling Expectations
+
+- **Read this file** (`AGENTS.md`) and `README.md` before any action. If you cannot read both, say so and stop.
+- **Check `docs/ARCHITECTURE.md`** for hard-mode sampling rules before touching `batteryInfo` code paths.
+- **Use `execute_code` or `terminal`** for filesystem work, not `cat` / `sed` / `awk` (Hermes convention).
+- **Verify with real tool output.** Do not claim a file was written without `read_file`-ing it back. Do not claim a build passed without its exit code.
+
+### 4.2 Subagent Discipline
+
+- **Subagent cap = 600s.** If a subagent is still running at 600s, kill it and resume inline.
+- **Multi-file refactors** with delegation: expect 10–20% leftover. Finish inline; do not re-dispatch the same task.
+- **Do not poll.** Either the user is waiting (foreground) or you backgrounded with `notify_on_complete=true`. Do not `process(action='poll')` in a tight loop.
+- **No "ready to push when you are" prompts.** Push when done. Marian hates that pattern.
+
+### 4.3 Forbidden Patterns
+
+- ❌ Inventing APIs, version numbers, or repo URLs that do not exist. If you don't know, say "I need to verify this" and use a search tool.
+- ❌ Fabricating test output, build logs, or screenshots.
+- ❌ Committing `.env`, `*.jks`, `*.keystore`, `agconnect-services.json`, or any `local.properties` content.
+- ❌ Suggesting Home Assistant integration in any PR description.
+- ❌ Lying about what changed in a PR. The diff is the source of truth.
+
+### 4.4 Recommended Patterns
+
+- ✅ Read the failing test before fixing it.
+- ✅ Use the `skills/` system when one matches the task. Skills are procedural memory.
+- ✅ Save a non-trivial workflow as a skill after you finish it.
+- ✅ When in doubt, ask. The cost of one clarifying question is lower than the cost of a wrong implementation.
+
+---
+
+## 5. Communication Style
+
+- **Direct, no fluff.** Marian runs ADHD-friendly. Short sentences, bullet points, action items.
+- **Markdown always.** Tables for comparisons, code blocks for code, lists for steps. Telegram renders it natively.
+- **Polish / English mix OK in chat.** Repository artifacts (commits, docs, code comments) are **English only** unless explicitly localised.
+
+---
+
+## 6. Licensing
+
+Default license for this project is **Apache License 2.0**, consistent with `HMS-Wearable-Example` (the Kotlin reference implementation we forked patterns from). If a contributor wants a different license, raise it in an issue first; do not change `LICENSE` unilaterally.
+
+---
+
+## 7. Change Log for this File
+
+| Date | Change | Author |
+|---|---|---|
+| 2026-06-16 | Initial bootstrap | halaprix |
+
+Substantive changes to `AGENTS.md` require a PR review by Marian. LLM agents: if you think a rule is wrong, propose a change in an issue; do not silently edit the rulebook.

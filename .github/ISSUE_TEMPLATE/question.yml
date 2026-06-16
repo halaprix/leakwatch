@@ -1,0 +1,28 @@
+---
+name: Question
+description: Ask a question about LeakWatch (use this instead of issue comments for open-ended questions)
+title: '[Q] '
+labels: ['question']
+assignees: []
+---
+
+## Question
+
+Your question, in one or two paragraphs.
+
+## What I've tried
+
+- [ ] Read the README
+- [ ] Read the relevant docs in `docs/`
+- [ ] Searched existing issues (`is:issue <keywords>`)
+- [ ] Searched the Huawei Developer Forum
+
+## Environment (if relevant)
+
+- Watch model + OS
+- Phone model + OS
+- LeakWatch version
+
+## Why I'm asking
+
+The context that would help someone give a useful answer.

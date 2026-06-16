@@ -1,0 +1,46 @@
+{
+  "name": "leakwatch",
+  "version": "0.1.0-alpha.0",
+  "private": false,
+  "description": "Battery-frugal monitor for Huawei watches and HMS phones.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/halaprix/leakwatch#readme",
+  "bugs": {
+    "url": "https://github.com/halaprix/leakwatch/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore .git",
+    "lint:spelling": "cspell '**/*.{md,ts,ets,kt,json}'",
+    "format:check": "prettier --check '**/*.{md,json,yml,yaml}'",
+    "format:fix": "prettier --write '**/*.{md,json,yml,yaml}'",
+    "validate:commits": "commitlint --from=main --to=HEAD",
+    "ci": "npm run lint:md && npm run lint:spelling && npm run format:check"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "cspell": "^8.0.0",
+    "markdownlint-cli": "^0.42.0",
+    "prettier": "^3.3.0"
+  },
+  "keywords": [
+    "huawei",
+    "harmonyos",
+    "arkts",
+    "hms",
+    "wear-engine",
+    "battery-monitor",
+    "watch",
+    "no-gms",
+    "appgallery",
+    "kotlin",
+    "android",
+    "compose",
+    "frugal",
+    "leakwatch",
+    "halaprix"
+  ]
+}

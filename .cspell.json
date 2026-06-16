@@ -1,0 +1,40 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "harmonyos",
+    "arkts",
+    "arkui",
+    "deveco",
+    "leakwatch",
+    "wearengine",
+    "agconnect",
+    "appgallery",
+    "agc",
+    "halaprix",
+    "vico",
+    "rdb",
+    "p2p",
+    "emui",
+    "android",
+    "kotlin",
+    "gradle",
+    "jvm",
+    "apk",
+    "aab",
+    "aar",
+    "jetpack",
+    "compose",
+    "frugal",
+    "frugality",
+    "harmonyos",
+    "openharmony",
+    "litewearable",
+    "wearable"
+  ],
+  "ignorePaths": [
+    "CHANGELOG.md",
+    "LICENSE",
+    ".github/ISSUE_TEMPLATE/**"
+  ]
+}

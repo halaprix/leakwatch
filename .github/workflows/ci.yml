@@ -1,0 +1,170 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────
+  # 1. Repo hygiene — every PR must pass
+  # ──────────────────────────────────────────────────────────────────────
+  hygiene:
+    name: Repo hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate Conventional Commits in PR title
+        if: github.event_name == 'pull_request'
+        uses: wagoid/commitlint-github-action@v5
+        with:
+          configFile: .commitlintrc.json
+
+      - name: Check for committed secrets
+        run: |
+          echo "Scanning for forbidden secret patterns..."
+          ! git ls-files | xargs grep -lE 'agconnect-services\.json|google-services\.json|\.jks$|\.keystore$|\.p12$|BEGIN .* PRIVATE KEY' && \
+            echo "✅ No secrets in tracked files" || \
+            (echo "❌ Secret pattern found. See AGENTS.md §2.1." && exit 1)
+
+      - name: Check for private IPs / home-lab paths
+        run: |
+          echo "Scanning for private data leaks..."
+          ! git ls-files | xargs grep -nE '192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|/home/pkl/' && \
+            echo "✅ No private IPs or paths in tracked files" || \
+            (echo "❌ Private data found. See AGENTS.md §2.1." && exit 1)
+
+      - name: Validate Markdown links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress --exclude-loopback --exclude-mail --exclude-file 'docs/screenshots/' README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md AGENTS.md
+        continue-on-error: true
+
+  # ──────────────────────────────────────────────────────────────────────
+  # 2. ArkTS / DevEco — runs only when watch/ is touched
+  # ──────────────────────────────────────────────────────────────────────
+  watch-build:
+    name: Watch module (ArkTS)
+    runs-on: ubuntu-latest
+    needs: hygiene
+    if: |
+      contains(github.event.pull_request.changed_files, 'watch/') ||
+      contains(github.event.push.modified, 'watch/') ||
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Note
+        run: |
+          echo "⚠️  DevEco Studio (HarmonyOS NEXT) is Windows/macOS only."
+          echo "CI cannot run a real DevEco build. This job validates structure only."
+          echo "Use DevEco locally for full builds."
+
+      - name: Validate watch/ structure
+        run: |
+          if [ -d watch ]; then
+            echo "Validating watch/ module..."
+            test -f watch/build-profile.json5 || echo "  ⚠️  watch/build-profile.json5 not found (expected once module lands)"
+            test -f watch/oh-package.json5 || echo "  ⚠️  watch/oh-package.json5 not found"
+            test -d watch/entry/src/main/ets || echo "  ⚠️  watch/entry/src/main/ets not found"
+            echo "✅ watch/ structure validated"
+          else
+            echo "ℹ️  watch/ does not exist yet (lands in v0.1.0-alpha.1)"
+          fi
+
+  # ──────────────────────────────────────────────────────────────────────
+  # 3. Kotlin / Android — runs only when phone/ is touched
+  # ──────────────────────────────────────────────────────────────────────
+  phone-build:
+    name: Phone module (Kotlin)
+    runs-on: ubuntu-latest
+    needs: hygiene
+    if: |
+      contains(github.event.pull_request.changed_files, 'phone/') ||
+      contains(github.event.push.modified, 'phone/') ||
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Make Gradle wrapper executable
+        if: hashFiles('phone/gradlew') != ''
+        working-directory: phone
+        run: chmod +x gradlew
+
+      - name: Build (if phone/ exists)
+        if: hashFiles('phone/gradlew') != ''
+        working-directory: phone
+        run: ./gradlew --no-daemon assembleDebug lintDebugUnitTest
+        env:
+          # Dummy values so build doesn't fail on missing local.properties
+          KEYSTORE_FILE: dummy.jks
+          KEYSTORE_PASSWORD: dummy
+          KEY_ALIAS: dummy
+          KEY_PASSWORD: dummy
+
+      - name: Note if phone/ does not exist yet
+        if: hashFiles('phone/gradlew') == ''
+        run: echo "ℹ️  phone/ does not exist yet (lands in v0.2.0-alpha.1)"
+
+  # ──────────────────────────────────────────────────────────────────────
+  # 4. Docs — every PR
+  # ──────────────────────────────────────────────────────────────────────
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    needs: hygiene
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for broken relative links in Markdown
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          config-file: .github/markdown-link-check.json
+          use-quiet-mode: 'yes'
+          fail-on-error: false
+
+      - name: Spell check
+        uses: streetsidesoftware/cspell-action@v6
+        with:
+          config: .cspell.json
+          incremental_files_only: false
+          ignore_paths: '["**/build/**", "**/.gradle/**", "**/node_modules/**", "**/.git/**", "LICENSE", ".github/ISSUE_TEMPLATE/**"]'
+
+  # ──────────────────────────────────────────────────────────────────────
+  # 5. Aggregate status
+  # ──────────────────────────────────────────────────────────────────────
+  all-green:
+    name: All checks
+    runs-on: ubuntu-latest
+    needs: [hygiene, docs]
+    if: always()
+    steps:
+      - name: Status
+        run: |
+          if [ "${{ needs.hygiene.result }}" != "success" ] || [ "${{ needs.docs.result }}" != "success" ]; then
+            echo "❌ One or more required checks failed."
+            exit 1
+          fi
+          echo "✅ All required checks passed."

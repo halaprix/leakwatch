@@ -1,0 +1,56 @@
+# Dependabot configuration
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+
+version: 2
+
+updates:
+  # Android / Kotlin / Gradle ecosystem
+  - package-ecosystem: "gradle"
+    directory: "/phone"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Warsaw"
+    open-pull-requests-limit: 5
+    groups:
+      kotlin:
+        patterns: ["*kotlin*", "*coroutines*"]
+      compose:
+        patterns: ["*compose*", "*vico*"]
+      hms:
+        patterns: ["*hms*", "*huawei*"]
+    labels:
+      - "dependencies"
+      - "phone"
+    commit-message:
+      prefix: "chore(phone)"
+    # Don't auto-bump major versions of HMS Core — review them manually
+    ignore:
+      - dependency-name: "com.huawei.hms:*"
+        update-types: ["version-update:semver-major"]
+
+  # DevEco / HarmonyOS / Node (for tooling)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "tooling"
+    commit-message:
+      prefix: "chore(tooling)"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "ci"

@@ -1,0 +1,13 @@
+# Screenshots
+
+> Placeholder directory for app screenshots, store assets, and demo GIFs.
+
+When the first UI milestone lands, this directory will hold:
+
+- `watch-live.png` — live battery card on the watch
+- `watch-history.png` — RDB history view on the watch
+- `phone-24h.png` — 24h drain curve on the phone
+- `phone-7d.png` — 7d aggregated curve
+- `demo.gif` — end-to-end demo recording
+
+Until then, this `.gitkeep` is here so the directory exists in version control.

@@ -1,0 +1,178 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# LeakWatch — top-level .gitignore
+# Multi-stack: HarmonyOS (ArkTS), Android (Kotlin), Gradle, Node, IDE, OS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ─── Secrets (NEVER commit these) ───────────────────────────────────────────
+*.jks
+*.keystore
+*.p12
+*.pem
+local.properties
+agconnect-services.json
+google-services.json
+.env
+.env.*
+!.env.example
+secrets.properties
+**/keystore.properties
+**/key.properties
+
+# ─── HarmonyOS / OpenHarmony / DevEco ────────────────────────────────────────
+# Build outputs
+**/build/
+**/obfuscate/
+**/libs/
+**/hap/
+**/app/
+**/oh-package-lock.json5
+**/node_modules/
+oh_modules/
+.idea/
+**/.hvigor/
+.cxx/
+build-profile.json5.bak
+**/src/main/cpp/.cxx/
+**/src/ohosTest/.cxx/
+entry/build/
+entry/obfuscate/
+
+# Generated code
+**/generated/
+**/Generated/
+
+# Signing
+**/signature/
+**/p7b
+signing-config/
+
+# IDE
+.deveco/
+*.deveco
+**/.deveco/
+.vscode/hvigor.xml
+.vscode/launch.json
+
+# Local config
+**/local-config.json5
+
+# ─── Android / Gradle / Kotlin ──────────────────────────────────────────────
+*.iml
+.gradle/
+**/build/
+captures/
+.cxx/
+.externalNativeBuild/
+**/.cxx/
+local.properties
+**/local.properties
+**/*.apk
+**/*.aab
+**/*.aar
+**/*.ap_
+**/*.dex
+**/*.class
+bin/
+gen/
+out/
+release/
+
+# Kotlin
+.kotlin/
+
+# ─── ProGuard / R8 ───────────────────────────────────────────────────────────
+*.hprof
+*.log
+proguard/
+**/proguard/
+
+# ─── Tests / Coverage ───────────────────────────────────────────────────────
+coverage/
+**/test-results/
+**/reports/
+**/build/reports/
+**/build/test-results/
+*.lcov
+*.html
+*.xml
+!checkstyle.xml
+!detekt.xml
+
+# ─── IDEs ───────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+*.swp
+*.swo
+*~
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# ─── OS junk ────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─── Node / npm / yarn (for tooling) ────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+.pnpm-store/
+
+# ─── Python (for tools/scripts) ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ─── Misc ───────────────────────────────────────────────────────────────────
+*.bak
+*.tmp
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+.cache/
+.tmp/
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# ─── Project-specific (intentionally excluded until generated) ─────────────
+# (none yet — add here as we produce them)
+
+# ─── Allow-list (force-include patterns) ────────────────────────────────────
+# Use `!pattern` to re-include a file that a broader pattern excluded.
+# Keep these at the bottom.
+!.gitkeep
+!.gitattributes
+!**/.gitkeep

@@ -1,0 +1,52 @@
+# Git attributes — keep line endings and diffs sane across platforms
+# https://git-scm.com/docs/gitattributes
+
+# Default: LF everywhere
+* text=auto eol=lf
+
+# Shell scripts must have LF (even on Windows)
+*.sh         text eol=lf
+*.bash       text eol=lf
+*.zsh        text eol=lf
+
+# Windows-style batch / PowerShell: CRLF
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+*.ps1        text eol=crlf
+
+# Markdown: keep LF, but exclude from trailing-whitespace trimming
+*.md         text eol=lf
+*.markdown   text eol=lf
+
+# Source code: explicit LF
+*.kt         text eol=lf
+*.kts        text eol=lf diff=kotlin
+*.java       text eol=lf diff=java
+*.ts         text eol=lf diff=ts
+*.tsx        text eol=lf diff=ts
+*.js         text eol=lf diff=js
+*.jsx        text eol=lf diff=js
+*.ets        text eol=lf
+*.json       text eol=lf
+*.json5      text eol=lf
+*.xml        text eol=lf
+*.yaml       text eol=lf
+*.yml        text eol=lf
+*.gradle     text eol=lf
+*.properties text eol=lf
+
+# GitHub linguist hints
+.gitignore      linguist-generated
+.gitattributes  linguist-generated
+.editorconfig   linguist-generated
+LICENSE         linguist-generated
+AGENTS.md       linguist-documentation
+CHANGELOG.md    linguist-documentation
+CONTRIBUTING.md linguist-documentation
+SECURITY.md     linguist-documentation
+
+# Exclude build artefacts from language stats
+**/build/**     linguist-generated
+**/.gradle/**   linguist-generated
+**/.idea/**     linguist-generated
+**/node_modules/** linguist-generated

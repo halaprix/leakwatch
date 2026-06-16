@@ -1,0 +1,67 @@
+---
+name: Bug report
+description: Report a bug in LeakWatch (watch, phone, or build system)
+title: '[BUG] '
+labels: ['bug', 'needs-triage']
+assignees: []
+---
+
+## Describe the bug
+
+A clear and concise description of what the bug is.
+
+## To reproduce
+
+Steps to reproduce the behaviour:
+
+1. Install LeakWatch on watch model X, phone model Y
+2. Configure ...
+3. Observe ...
+
+## Expected behaviour
+
+What you expected to happen.
+
+## Actual behaviour
+
+What actually happened.
+
+## Environment
+
+| Item | Value |
+|---|---|
+| Watch model | (e.g. Huawei Watch 5, Watch GT 5 Pro, Watch GT 4) |
+| Watch OS | (e.g. HarmonyOS NEXT 5.0.0.124) |
+| Phone model | (e.g. Huawei P60 Pro) |
+| Phone OS / EMUI | (e.g. EMUI 14.0.0.160) |
+| HMS Core version | (Settings → Apps → HMS Core) |
+| LeakWatch version | (vX.Y.Z, or commit SHA, or `dev`) |
+| Account ID (if relevant) | _(leave empty unless required for repro)_ |
+
+## Logs
+
+Paste sanitised `adb logcat` or DevEco HiLog output. **Strip:**
+- Personal data (names, emails, phone numbers)
+- Account IDs / fingerprints
+- `agconnect-services.json` content
+
+```
+[Your log output here]
+```
+
+## Screenshots / screen recordings
+
+If applicable, add screenshots or short screen recordings. Drag-and-drop is enabled.
+
+## Severity
+
+How badly does this affect you?
+
+- [ ] Critical — app unusable, data loss, or privacy leak
+- [ ] High — major feature broken, no workaround
+- [ ] Medium — major feature broken, has workaround
+- [ ] Low — minor issue, cosmetic, or edge case
+
+## Additional context
+
+Anything else that might help.
