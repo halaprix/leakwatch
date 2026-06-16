@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **v0.2.0-alpha.1** — Phone-side data layer + daily aggregation
+  - `phone/app/src/main/java/com/halaprix/leakwatch/data/DailySummary.kt` — daily battery summary entity
+  - `phone/app/src/main/java/com/halaprix/leakwatch/data/DailySummaryDao.kt` — DAO for daily summaries
+  - `phone/app/src/main/java/com/halaprix/leakwatch/worker/DailyAggregationWorker.kt` — WorkManager worker for daily stats
+  - `phone/app/src/main/java/com/halaprix/leakwatch/LeakWatchApplication.kt` — Application class with WorkManager scheduling
+  - Database schema v2: added `daily_summaries` table
+  - 30-day retention policy for raw readings and summaries
+  - Unit tests for aggregation logic
 - `scripts/privacy-scan.sh` — standalone privacy scanner (also wired into CI)
 - `ROADMAP.md` — living project roadmap
 - `docs/privacy.md` — developer-facing privacy rules (distinct from `docs/PRIVACY.md` which is user-facing)
