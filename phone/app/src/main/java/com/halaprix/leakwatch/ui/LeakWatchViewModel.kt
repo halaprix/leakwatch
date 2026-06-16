@@ -69,6 +69,40 @@ class LeakWatchViewModel(application: Application) : AndroidViewModel(applicatio
     }
     
     /**
+     * Weekly analytics: last 7 days average drain.
+     */
+    fun weeklyAvgDrain(summaries: List<DailySummary>): Float? {
+        val last7 = summaries.takeLast(7)
+        if (last7.isEmpty()) return null
+        return last7.map { it.totalDrain }.average().toFloat()
+    }
+    
+    /**
+     * Monthly analytics: last 30 days average drain.
+     */
+    fun monthlyAvgDrain(summaries: List<DailySummary>): Float? {
+        val last30 = summaries.takeLast(30)
+        if (last30.isEmpty()) return null
+        return last30.map { it.totalDrain }.average().toFloat()
+    }
+    
+    /**
+     * Trend: compare last 7 days vs previous 7 days.
+     * Returns: "improving", "worsening", "stable", or null if insufficient data.
+     */
+    fun drainTrend(summaries: List<DailySummary>): String? {
+        if (summaries.size < 14) return null
+        val recent7 = summaries.takeLast(7).map { it.totalDrain }.average()
+        val previous7 = summaries.dropLast(7).takeLast(7).map { it.totalDrain }.average()
+        val diff = recent7 - previous7
+        return when {
+            diff < -2 -> "improving"
+            diff > 2 -> "worsening"
+            else -> "stable"
+        }
+    }
+    
+    /**
      * Insert a batch of mock readings for testing.
      * Simulates 24 hours of data with realistic battery drain.
      */

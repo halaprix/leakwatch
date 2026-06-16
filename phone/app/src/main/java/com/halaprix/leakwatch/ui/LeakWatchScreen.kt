@@ -214,10 +214,12 @@ fun DailySummaryCard(summary: DailySummary) {
 }
 
 /**
- * Settings tab: app info + actions.
+ * Settings tab: app info + analytics + actions.
  */
 @Composable
 fun SettingsTab(viewModel: LeakWatchViewModel) {
+    val summaries by viewModel.dailySummaries.collectAsState(initial = emptyList())
+    
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -235,8 +237,51 @@ fun SettingsTab(viewModel: LeakWatchViewModel) {
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    StatRow("Version", "0.2.0-alpha.1")
-                    StatRow("Build", "mock-p2p")
+                    StatRow("Version", "0.3.0-alpha.1")
+                    StatRow("Build", "analytics")
+                }
+            }
+        }
+        
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Analytics",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    val weeklyAvg = viewModel.weeklyAvgDrain(summaries)
+                    val monthlyAvg = viewModel.monthlyAvgDrain(summaries)
+                    val trend = viewModel.drainTrend(summaries)
+                    
+                    if (weeklyAvg != null) {
+                        StatRow("Last 7 days avg", "%.1f%%/day".format(weeklyAvg))
+                    }
+                    if (monthlyAvg != null) {
+                        StatRow("Last 30 days avg", "%.1f%%/day".format(monthlyAvg))
+                    }
+                    if (trend != null) {
+                        val trendEmoji = when (trend) {
+                            "improving" -> "📉"
+                            "worsening" -> "📈"
+                            else -> "➡️"
+                        }
+                        StatRow("Trend", "$trendEmoji $trend")
+                    }
+                    
+                    if (summaries.isEmpty()) {
+                        Text(
+                            text = "No analytics yet. Data will appear after midnight aggregation runs.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
