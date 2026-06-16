@@ -112,6 +112,22 @@ fun TodayTab(viewModel: LeakWatchViewModel) {
                     Spacer(modifier = Modifier.height(8.dp))
                     StatRow("Total readings", readingCount.toString())
                     StatRow("Last update", latestReading?.let { formatTimestamp(it.ts) } ?: "Never")
+                    
+                    // Drain rate from summaries
+                    val summaries by viewModel.dailySummaries.collectAsState(initial = emptyList())
+                    val avgDrainRate = viewModel.calculateAvgDrainRate(summaries)
+                    if (avgDrainRate != null) {
+                        StatRow("Avg drain rate", "%.2f%%/hour".format(avgDrainRate))
+                        
+                        val best = viewModel.bestDay(summaries)
+                        val worst = viewModel.worstDay(summaries)
+                        if (best != null) {
+                            StatRow("Best day", "${best.date} (${best.totalDrain}%)")
+                        }
+                        if (worst != null) {
+                            StatRow("Worst day", "${worst.date} (${worst.totalDrain}%)")
+                        }
+                    }
                 }
             }
         }

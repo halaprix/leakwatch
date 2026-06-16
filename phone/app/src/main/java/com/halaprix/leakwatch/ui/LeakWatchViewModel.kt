@@ -44,6 +44,31 @@ class LeakWatchViewModel(application: Application) : AndroidViewModel(applicatio
         .stateIn(viewModelScope, SharingStarted.Lazily, 0)
     
     /**
+     * Average drain rate in %/hour, computed from daily summaries.
+     * Assumes 24h per day. Returns null if no data.
+     */
+    fun calculateAvgDrainRate(summaries: List<DailySummary>): Float? {
+        if (summaries.isEmpty()) return null
+        val totalDrain = summaries.sumOf { it.totalDrain }
+        val totalDays = summaries.size
+        return totalDrain.toFloat() / (totalDays * 24)
+    }
+    
+    /**
+     * Best day (lowest drain).
+     */
+    fun bestDay(summaries: List<DailySummary>): DailySummary? {
+        return summaries.minByOrNull { it.totalDrain }
+    }
+    
+    /**
+     * Worst day (highest drain).
+     */
+    fun worstDay(summaries: List<DailySummary>): DailySummary? {
+        return summaries.maxByOrNull { it.totalDrain }
+    }
+    
+    /**
      * Insert a batch of mock readings for testing.
      * Simulates 24 hours of data with realistic battery drain.
      */
