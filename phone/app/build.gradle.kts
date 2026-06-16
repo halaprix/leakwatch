@@ -12,8 +12,8 @@ android {
         applicationId = "com.halaprix.leakwatch"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "0.3.0-alpha.1"
+        versionCode = 4
+        versionName = "0.4.0-alpha.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -75,8 +75,8 @@ dependencies {
     // Lifecycle ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     
-    // HMS Core (placeholder — real integration in v0.4.0-alpha.1)
-    // implementation("com.huawei.hms:wear-engine:5.0.0.300")
+    // HMS Wear Engine (real P2P communication)
+    implementation("com.huawei.hms:wear-engine:5.0.0.300")
     
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

@@ -17,14 +17,11 @@ import com.halaprix.leakwatch.ui.theme.LeakWatchTheme
 
 class MainActivity : ComponentActivity() {
     private val TAG = "MainActivity"
-    private lateinit var receiver: WearEngineReceiver
     private val viewModel: LeakWatchViewModel by viewModels()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
-        receiver = WearEngineReceiver(this)
         
         setContent {
             LeakWatchTheme {
@@ -37,14 +34,6 @@ class MainActivity : ComponentActivity() {
             }
         }
         
-        // Start mock P2P receiver
-        receiver.startReceiving()
-        Log.i(TAG, "Mock P2P receiver started")
-    }
-    
-    override fun onDestroy() {
-        super.onDestroy()
-        receiver.stopReceiving()
-        Log.i(TAG, "Mock P2P receiver stopped")
+        Log.i(TAG, "LeakWatch started — WearEngineReceiverService will receive P2P data from watch")
     }
 }

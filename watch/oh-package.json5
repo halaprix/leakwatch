@@ -1,9 +1,11 @@
 {
   "modelVersion": "5.0.0",
   "name": "leakwatch",
-  "version": "0.1.0-alpha.1",
+  "version": "0.4.0-alpha.1",
   "description": "Battery-frugal monitor for Huawei watches",
-  "dependencies": {},
+  "dependencies": {
+    "@hw-wearable/wearable-engine": "5.0.0.300"
+  },
   "devDependencies": {
     "@ohos/hypium": "1.0.21",
     "@ohos/hvigor-ohos-plugin": "5.0.4",

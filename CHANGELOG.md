@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **v0.4.0-alpha.1** — Real HMS Wear Engine P2P (end-to-end)
+  - `phone/app/src/main/java/com/halaprix/leakwatch/p2p/BatteryReadingSerializer.kt` — JSON serialization for P2P
+  - `phone/app/src/main/java/com/halaprix/leakwatch/p2p/WearEngineReceiver.kt` — real Wear Engine DataClient receiver
+  - `watch/entry/src/main/ets/service/WearEngineSender.ets` — real Wear Engine DataClient sender (replaces stub)
+  - `docs/E2E_TESTING.md` — end-to-end testing guide with AGC setup
+  - HMS Wear Engine 5.0.0.300 dependency (both watch and phone)
+  - HMS Maven repository in phone/build.gradle.kts
+  - AndroidManifest.xml: WearEngineReceiverService declaration with intent filter
+  - P2P data format: JSON array of BatteryReading objects
+  - Path: `/leakwatch/battery`, Key: `battery_readings`
 - **v0.2.0-alpha.1** — Phone-side data layer + daily aggregation
   - `phone/app/src/main/java/com/halaprix/leakwatch/data/DailySummary.kt` — daily battery summary entity
   - `phone/app/src/main/java/com/halaprix/leakwatch/data/DailySummaryDao.kt` — DAO for daily summaries
