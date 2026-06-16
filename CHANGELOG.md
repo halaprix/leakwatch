@@ -30,12 +30,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Stub logs queue length so the batching cadence is verifiable in DevEco HiLog
 - `phone/` — Android Kotlin + Compose placeholder APK
   - `phone/settings.gradle.kts`, `phone/build.gradle.kts`, `phone/gradle.properties` — Gradle config
-  - `phone/app/build.gradle.kts` — app module (compileSdk 34, minSdk 26, Compose BOM 2024.08)
+  - `phone/app/build.gradle.kts` — app module (compileSdk 34, minSdk 26, Compose BOM 2024.08, Room 2.6.1, WorkManager 2.9.1)
   - `phone/app/src/main/AndroidManifest.xml` — manifest with MainActivity
   - `phone/app/src/main/java/com/halaprix/leakwatch/MainActivity.kt` — placeholder Compose UI
   - `phone/app/src/main/java/com/halaprix/leakwatch/ui/theme/` — Material3 theme (Color, Type, Theme)
   - `phone/app/src/main/res/values/` — strings.xml, themes.xml, colors.xml
   - Note: gradle wrapper JAR + scripts not committed (binary); generate locally with `gradle wrapper`
+- `phone/app/src/main/java/com/halaprix/leakwatch/data/` — Room database layer
+  - `BatteryReading.kt` — entity mirroring watch-side BatteryRecord
+  - `BatteryReadingDao.kt` — DAO with Flow-based queries (all readings, since timestamp, latest, per-day)
+  - `AppDatabase.kt` — Room database singleton (leakwatch.db, v1)
 
 ### Changed
 - `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
