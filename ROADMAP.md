@@ -4,25 +4,17 @@ Living roadmap. Updates land as PRs with rationale.
 
 ## Released
 
+- [v0.1.0-alpha.1](https://github.com/halaprix/leakwatch/releases/tag/v0.1.0-alpha.1) — Watch-side BatteryMonitor + phone placeholder APK
 - [v0.1.0-alpha.0](https://github.com/halaprix/leakwatch/releases/tag/v0.1.0-alpha.0) — Initial repo scaffold
 
 ## In progress
 
-### v0.1.0-alpha.1 — Watch-side BatteryMonitor (THIS MILESTONE)
+### v0.2.0-alpha.1 — Phone-side infrastructure (Room + WorkManager + UI scaffold)
 
-- [ ] `lw-1.0.0` Privacy scan script + developer governance docs (Task 1)
-- [ ] `lw-1.1.0` Watch project scaffold (DevEco Lite Wearable, ArkTS) (Task 2)
-- [ ] `lw-1.2.0` BatteryMonitor singleton (ArkTS, 120s sampling, RDB) (Task 3)
-- [ ] `lw-1.3.0` Batched P2P sender (HMS Wear Engine, 10min flush) (Task 4)
-- [ ] `lw-1.4.0` Phone placeholder APK (Compose, receives nothing yet) (Task 5)
-- [ ] `lw-1.5.0` v0.1.0-alpha.1 release tag + GitHub release notes (Task 6)
-
-### v0.2.0-alpha.1 — Phone-side receiver + Room persistence
-
-- [ ] `lw-2.0.0` Wear Engine P2P receiver in MainActivity
-- [ ] `lw-2.1.0` Room schema + entity + DAO for `BatteryReading`
+- [ ] `lw-2.0.0` Room schema + entity + DAO for `BatteryReading`
+- [ ] `lw-2.1.0` P2P receiver scaffold (placeholder, mock data — real P2P in v0.4.0-alpha.1)
 - [ ] `lw-2.2.0` Daily aggregation job (WorkManager)
-- [ ] `lw-2.3.0` End-to-end smoke test (watch → phone → DB)
+- [ ] `lw-2.3.0` UI scaffold (charts placeholder, tabs structure)
 - [ ] `lw-2.4.0` v0.2.0-alpha.1 release tag
 
 ### v0.3.0-alpha.1 — UI + drain-rate calculation
