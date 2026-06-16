@@ -25,6 +25,7 @@ secrets.properties
 **/libs/
 **/hap/
 **/app/
+!**/phone/app/
 **/oh-package-lock.json5
 **/node_modules/
 oh_modules/
@@ -189,3 +190,8 @@ logs/
 .beads/sync-state.json
 .beads/.local_version
 CLAUDE.md
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
