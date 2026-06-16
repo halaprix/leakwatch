@@ -11,12 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned
-- Watch-side `BatteryMonitor` sampling loop (ArkTS) — see `docs/ARCHITECTURE.md`
-- Phone-side HMS Wear Engine receiver + Room persistence
-- Vico chart + daily aggregation
-- Drain rate calculation
-- Privacy policy skeleton for AppGallery
+### Added
+- `scripts/privacy-scan.sh` — standalone privacy scanner (also wired into CI)
+- `ROADMAP.md` — living project roadmap
+- `docs/privacy.md` — developer-facing privacy rules (distinct from `docs/PRIVACY.md` which is user-facing)
+- `docs/pr-flow.md` — PR lifecycle documentation
+- `docs/AGC_SETUP.md` — manual AGC setup checklist (1-time, before v0.4.0-alpha.1)
+
+### Changed
+- `.github/workflows/ci.yml` now runs `scripts/privacy-scan.sh` in the hygiene job; CI job renamed to `Hygiene` to match branch protection requirement
+- `AGENTS.md` references new governance files; explicitly forbids Tailscale hostnames, machine IDs, AGC fingerprints
 
 ---
 

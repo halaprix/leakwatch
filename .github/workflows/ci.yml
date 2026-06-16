@@ -19,7 +19,7 @@ jobs:
   # 1. Repo hygiene — every PR must pass
   # ──────────────────────────────────────────────────────────────────────
   hygiene:
-    name: Repo hygiene
+    name: Hygiene
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,19 +32,10 @@ jobs:
         with:
           configFile: .commitlintrc.json
 
-      - name: Check for committed secrets
+      - name: Run privacy scan
         run: |
-          echo "Scanning for forbidden secret patterns..."
-          ! git ls-files | xargs grep -lE 'agconnect-services\.json|google-services\.json|\.jks$|\.keystore$|\.p12$|BEGIN .* PRIVATE KEY' && \
-            echo "✅ No secrets in tracked files" || \
-            (echo "❌ Secret pattern found. See AGENTS.md §2.1." && exit 1)
-
-      - name: Check for private IPs / home-lab paths
-        run: |
-          echo "Scanning for private data leaks..."
-          ! git ls-files | xargs grep -nE '192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|/home/pkl/' && \
-            echo "✅ No private IPs or paths in tracked files" || \
-            (echo "❌ Private data found. See AGENTS.md §2.1." && exit 1)
+          chmod +x scripts/privacy-scan.sh
+          ./scripts/privacy-scan.sh
 
       - name: Validate Markdown links
         uses: lycheeverse/lychee-action@v2
