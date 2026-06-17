@@ -58,11 +58,28 @@
     "behavior",
     "cleanup",
     "linters",
-    "Prieto"
+    "Prieto",
+    "allprojects",
+    "bypassable",
+    "CGNAT",
+    "codelab",
+    "cooldown",
+    "Dfile",
+    "Drawables",
+    "incl",
+    "jvmargs",
+    "Macrobenchmark",
+    "patrykandpatrick",
+    "proguard",
+    "vendored",
+    "viewmodel"
   ],
   "ignorePaths": [
     "CHANGELOG.md",
     "LICENSE",
-    ".github/ISSUE_TEMPLATE/**"
+    ".github/ISSUE_TEMPLATE/**",
+    "**/build/**",
+    "**/.gradle/**",
+    "**/node_modules/**"
   ]
 }
