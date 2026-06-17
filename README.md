@@ -67,12 +67,13 @@ Full architecture: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 ## 🚧 Status
 
-**Alpha (v0.1.0).** Repo scaffolded; no app code yet. Next milestones:
+**Alpha (v0.4.0).** Watch battery monitor + Wear Engine P2P + phone analytics landed. Next milestones:
 
-- [ ] `v0.1.0-alpha` — Watch-side `BatteryMonitor` sampling loop (ArkTS) + RDB
-- [ ] `v0.2.0-alpha` — Phone-side Wear Engine receiver + Room persistence
-- [ ] `v0.3.0-alpha` — Vico chart, daily aggregation, drain rate
-- [ ] `v0.4.0-alpha` — Privacy policy + AppGallery submission
+- [x] `v0.1.0-alpha` — Watch-side `BatteryMonitor` sampling loop (ArkTS) + RDB
+- [x] `v0.2.0-alpha` — Phone-side Wear Engine receiver + Room persistence
+- [x] `v0.3.0-alpha` — Vico chart, daily aggregation, drain rate
+- [x] `v0.4.0-alpha` — Real HMS Wear Engine P2P (v0.4.0-alpha.1 tagged)
+- [ ] `v0.5.0-alpha` — Privacy policy + AppGallery submission
 - [ ] `v1.0.0` — First public release
 
 See [`CHANGELOG.md`](./CHANGELOG.md) for what landed when.
