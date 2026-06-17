@@ -43,8 +43,8 @@ Expected result: ...
 
 - [ ] My commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
 - [ ] One logical change per commit
-- [ ] I read [`AGENTS.md`](./AGENTS.md) (if I'm a coding agent)
-- [ ] I read [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [ ] I read [`AGENTS.md`](https://github.com/halaprix/leakwatch/blob/main/AGENTS.md) (if I'm a coding agent)
+- [ ] I read [`CONTRIBUTING.md`](https://github.com/halaprix/leakwatch/blob/main/CONTRIBUTING.md)
 - [ ] No secrets, fingerprints, or `agconnect-services.json` content in the diff
 - [ ] No references to private IPs, paths, or home-lab infrastructure
 - [ ] Tested locally (build / lint / unit tests as applicable)
