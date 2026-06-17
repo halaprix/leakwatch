@@ -7,7 +7,6 @@ import androidx.work.WorkerParameters
 import com.halaprix.leakwatch.data.AppDatabase
 import com.halaprix.leakwatch.data.DailySummary
 import java.time.LocalDate
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 /**
@@ -41,13 +40,18 @@ class DailyAggregationWorker(
             val readingDao = db.batteryReadingDao()
             val summaryDao = db.dailySummaryDao()
             
-            // Compute yesterday's stats
-            val yesterday = LocalDate.now().minusDays(1)
+            // Compute yesterday's stats in the device's local timezone.
+            // The "yesterday" date, the day boundaries, and the cleanup
+            // cutoff must all use the same zone, otherwise off-UTC users
+            // mis-attribute readings near midnight and the worker fires
+            // at the wrong wall-clock time.
+            val zone = java.time.ZoneId.systemDefault()
+            val yesterday = LocalDate.now(zone).minusDays(1)
             val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
             val dateStr = yesterday.format(dateFormatter)
-            
-            val dayStart = yesterday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
-            val dayEnd = yesterday.plusDays(1).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+
+            val dayStart = yesterday.atStartOfDay(zone).toInstant().toEpochMilli()
+            val dayEnd = yesterday.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
             
             val stats = readingDao.getDailyStats(dayStart, dayEnd)
             
@@ -74,8 +78,8 @@ class DailyAggregationWorker(
             }
             
             // Cleanup old raw readings (keep last RETENTION_DAYS days)
-            val cutoffDate = LocalDate.now().minusDays(RETENTION_DAYS.toLong())
-            val cutoffTs = cutoffDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+            val cutoffDate = LocalDate.now(zone).minusDays(RETENTION_DAYS.toLong())
+            val cutoffTs = cutoffDate.atStartOfDay(zone).toInstant().toEpochMilli()
             readingDao.deleteOlderThan(cutoffTs)
             Log.i(TAG, "Cleaned up readings older than $cutoffDate")
             
