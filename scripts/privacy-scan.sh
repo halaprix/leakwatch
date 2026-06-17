@@ -52,6 +52,7 @@ ALLOWLIST_FILE_GLOBS=(
   'docs/PRIVACY.md'
   'docs/pr-flow.md'
   'docs/AGC_SETUP.md'
+  'docs/E2E_TESTING.md'
   'AGENTS.md'
   'SECURITY.md'
   'SECURITY_HALL_OF_FAME.md'
