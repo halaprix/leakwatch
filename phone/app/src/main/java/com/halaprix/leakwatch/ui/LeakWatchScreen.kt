@@ -237,7 +237,7 @@ fun SettingsTab(viewModel: LeakWatchViewModel) {
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    StatRow("Version", "0.3.0-alpha.1")
+                    StatRow("Version", BuildConfig.VERSION_NAME)
                     StatRow("Build", "analytics")
                 }
             }
