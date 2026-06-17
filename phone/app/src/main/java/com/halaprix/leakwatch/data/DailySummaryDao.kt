@@ -45,6 +45,13 @@ interface DailySummaryDao {
      */
     @Query("DELETE FROM daily_summaries WHERE date < :cutoffDate")
     suspend fun deleteOlderThan(cutoffDate: String)
+
+    /**
+     * Delete all summaries.
+     * Used by the UI's "Clear all data" action.
+     */
+    @Query("DELETE FROM daily_summaries")
+    suspend fun deleteAll()
     
     /**
      * Get the count of summaries.

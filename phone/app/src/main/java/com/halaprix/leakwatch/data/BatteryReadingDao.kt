@@ -58,6 +58,13 @@ interface BatteryReadingDao {
      */
     @Query("DELETE FROM battery_readings WHERE ts < :cutoffTs")
     suspend fun deleteOlderThan(cutoffTs: Long)
+
+    /**
+     * Delete all readings.
+     * Used by the UI's "Clear all data" action.
+     */
+    @Query("DELETE FROM battery_readings")
+    suspend fun deleteAll()
     
     /**
      * Get the count of readings.
