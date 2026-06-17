@@ -16,6 +16,6 @@ data class DailySummary(
     val minLevel: Int, // 0-100%
     val maxLevel: Int, // 0-100%
     val avgLevel: Int, // 0-100%
-    val totalDrain: Int, // 0-100% (maxLevel - minLevel, clamped)
+    val totalDrain: Int, // 0-100% (sum of negative level deltas in the day; charging segments ignored)
     val readingCount: Int // number of raw readings aggregated
 )
