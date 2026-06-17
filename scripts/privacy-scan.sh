@@ -32,12 +32,15 @@ PATTERNS=(
   'xai-[A-Za-z0-9]{20,}'
   # PEM private keys
   'BEGIN (RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY'
-  # Keystore files
-  '\.jks$'
-  '\.keystore$'
-  '\.p12$'
-  # Tailscale hostnames
-  'ts-[a-z0-9-]+\.ts\.net'
+  # Note: keystore/p12 file EXTENSIONS are checked separately, against
+  # the file PATH, not the file content. Grepping a binary .jks for
+  # the literal text '.jks$' never matches. See the keystore_files
+  # pass below.
+  # Tailscale hostnames. Matches any MagicDNS-style subdomain of
+  # .ts.net (incl. ts- prefixed device names AND unprefixed names
+  # like my-laptop.ts.net). The word boundary keeps it from matching
+  # e.g. a partial file path.
+  '\b[a-z0-9-]+\.ts\.net\b'
   # agconnect-services.json with content (the bare filename is fine)
   'agconnect-services\.json'
   '\"api_key\"[[:space:]]*:[[:space:]]*\"[A-Za-z0-9]{20,}\"'
@@ -133,4 +136,18 @@ if [ "$fail" -eq 0 ]; then
   total=$(git ls-files | wc -l)
   echo "✅ Privacy scan: no forbidden patterns in ${#files_to_check[@]} checked files ($total total, $checked patterns)"
 fi
+
+# --- Keystore / p12 file PATH check ---
+# Grepping a binary .jks/.keystore/.p12 for the literal extension text
+# never matches. Check the file path itself instead, against all tracked
+# files. This catches an accidentally-committed release.jks even if the
+# binary content is opaque to grep.
+KEYSTORE_EXT_REGEX='\.(jks|keystore|p12)$'
+keystore_matches=$(git ls-files 2>/dev/null | grep -E "$KEYSTORE_EXT_REGEX" || true)
+if [ -n "$keystore_matches" ]; then
+  echo "❌ Privacy scan FAILED: keystore/p12 files in tracked paths"
+  echo "$keystore_matches" | head -20
+  fail=1
+fi
+
 exit "$fail"
