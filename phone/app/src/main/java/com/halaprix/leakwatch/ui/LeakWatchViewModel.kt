@@ -117,9 +117,11 @@ class LeakWatchViewModel(application: Application) : AndroidViewModel(applicatio
                 BatteryReading(
                     ts = now - (count - i) * intervalMs,
                     level = (startLevel - i * drainPerReading).toInt().coerceIn(0, 100),
-                    voltage = 4200 - (i * 2), // mV, decreasing
+                    pluggedType = 0, // 0 = unknown
+                    chargingStatus = 2, // 2 = not charging
+                    voltage = 4200L - i * 2L, // mV, decreasing
                     temperature = 25 + (i % 5), // °C, slight variation
-                    status = 3 // Discharging
+                    isPresent = true
                 )
             }
             

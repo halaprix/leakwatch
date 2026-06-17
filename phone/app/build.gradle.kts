@@ -68,9 +68,11 @@ dependencies {
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     
-    // Vico charts (for battery level visualization)
-    implementation("com.patrykandpatrick.vico:compose:1.13.1")
-    implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
+    // Charts: previously Vico, now Compose Canvas (see BatteryDrainChart.kt).
+    // Vico will be reintroduced on a pinned major once we pick a version
+    // and the chart code matches. Tracked separately.
+    // implementation("com.patrykandpatrick.vico:compose:1.13.1")
+    // implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
     
     // Lifecycle ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
