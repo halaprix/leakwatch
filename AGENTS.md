@@ -81,6 +81,7 @@ If a coding agent writes a feature, the same agent must not be the sole reviewer
 - The README, issue templates, and PR template are the public face. Keep them sharp.
 - Screenshot and demo paths in markdown should be relative (`./docs/screenshots/...`) — no absolute paths.
 - If a feature is intentionally undocumented in public (e.g. a private build flag), say so in the code comment and do not mention it in public docs.
+- **Update docs on every relevant change.** If a commit adds, removes, or changes behaviour visible to users or contributors, update the corresponding doc file (`README.md`, `CHANGELOG.md`, `docs/*.md`) in the same PR — docs are not a separate cleanup step. When in doubt, update.
 
 ---
 
