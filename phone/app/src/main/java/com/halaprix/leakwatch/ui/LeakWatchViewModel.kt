@@ -132,8 +132,8 @@ class LeakWatchViewModel(application: Application) : AndroidViewModel(applicatio
      */
     fun clearAllData() {
         viewModelScope.launch {
-            readingDao.deleteOlderThan(System.currentTimeMillis())
-            summaryDao.deleteOlderThan("1970-01-01")
+            readingDao.deleteAll()
+            summaryDao.deleteAll()
         }
     }
 }
