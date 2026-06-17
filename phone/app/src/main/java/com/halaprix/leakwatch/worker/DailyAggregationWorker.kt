@@ -52,8 +52,11 @@ class DailyAggregationWorker(
             val stats = readingDao.getDailyStats(dayStart, dayEnd)
             
             if (stats != null && stats.readingCount > 0) {
-                val totalDrain = (stats.maxLevel - stats.minLevel).coerceAtLeast(0)
-                
+                // Compute true discharge from the raw readings, not the
+                // min/max range. See DailyStatsCalculator for the rationale.
+                val readings = readingDao.getReadingsForDaySync(dayStart, dayEnd)
+                val totalDrain = DailyStatsCalculator.computeTotalDrain(readings)
+
                 val summary = DailySummary(
                     date = dateStr,
                     minLevel = stats.minLevel,
