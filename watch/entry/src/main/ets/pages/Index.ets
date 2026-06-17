@@ -12,13 +12,19 @@ struct Index {
   @State isCharging: boolean = false;
   @State temperature: number = 0;
   private monitor: BatteryMonitor = BatteryMonitor.getInstance();
+  // Store the bound listener reference so aboutToDisappear can
+  // deregister the same closure that aboutToAppear registered.
+  // Without this, each navigation adds a fresh closure to the
+  // monitor's Set that nothing removes — slow leak across pages.
+  private listener: (record: BatteryRecord) => void = (_record) => {};
 
   aboutToAppear(): void {
-    this.monitor.addListener((record: BatteryRecord) => {
+    this.listener = (record: BatteryRecord) => {
       this.level = record.level;
       this.isCharging = record.chargingStatus === 1;
       this.temperature = record.temperature / 10; // 0.1°C → °C
-    });
+    };
+    this.monitor.addListener(this.listener);
     const last = this.monitor.getLastSample();
     if (last) {
       this.level = last.level;
@@ -28,10 +34,7 @@ struct Index {
   }
 
   aboutToDisappear(): void {
-    this.monitor.removeListener(() => {});
-    // Empty handler is intentional — the bound handler in aboutToAppear
-    // cannot be retrieved without a stored reference; listeners are
-    // cleared wholesale in EntryAbility.onDestroy via BatteryMonitor.destroy().
+    this.monitor.removeListener(this.listener);
   }
 
   build() {
