@@ -67,14 +67,15 @@ class LeakWatchApplication : Application() {
     }
     
     /**
-     * Calculate delay until next midnight (UTC).
-     * This ensures the worker runs at the start of each day.
+     * Calculate delay until next midnight in the device's local timezone.
+     * This ensures the worker runs at the start of each local day.
      */
     private fun calculateInitialDelay(): Long {
+        val zone = java.time.ZoneId.systemDefault()
         val now = System.currentTimeMillis()
-        val tomorrow = java.time.LocalDate.now()
+        val tomorrow = java.time.LocalDate.now(zone)
             .plusDays(1)
-            .atStartOfDay(java.time.ZoneOffset.UTC)
+            .atStartOfDay(zone)
             .toInstant()
             .toEpochMilli()
         return tomorrow - now
