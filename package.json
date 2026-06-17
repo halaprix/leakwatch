@@ -20,7 +20,7 @@
     "ci": "npm run lint:md && npm run lint:spelling && npm run format:check"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.0",
+    "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^19.0.0",
     "cspell": "^8.0.0",
     "markdownlint-cli": "^0.42.0",
