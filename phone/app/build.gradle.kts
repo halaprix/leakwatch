@@ -52,7 +52,7 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.0")
     implementation("androidx.activity:activity-compose:1.9.1")
     implementation(platform("androidx.compose:compose-bom:2024.08.00"))
     implementation("androidx.compose.ui:ui")
@@ -75,7 +75,7 @@ dependencies {
     // implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
     
     // Lifecycle ViewModel Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
     
     // HMS Wear Engine (real P2P communication)
     implementation("com.huawei.hms:wear-engine:5.0.0.300")
