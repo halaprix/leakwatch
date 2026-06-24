@@ -137,7 +137,7 @@ jobs:
           fail-on-error: false
 
       - name: Spell check
-        uses: streetsidesoftware/cspell-action@v6
+        uses: streetsidesoftware/cspell-action@v8
         with:
           config: .cspell.json
           incremental_files_only: false
